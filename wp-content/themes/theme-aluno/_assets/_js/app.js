@@ -63,12 +63,14 @@ jQuery(function($){
 	
 
 	/* detalhe post **/
-	var detalhesPostAjax = function(){
+	var detalhesPostAjax = function(id){
+		
 		$.ajax({
 			url: wp.ajaxurl,
 			type: 'GET',
 			data: {
-				action: 'detalhesPost'
+				action: 'detalhesPost', 
+				id: id
 			},
 			beforeSend:function(){
 				$('.progress').removeClass('d-none');
@@ -76,16 +78,18 @@ jQuery(function($){
 		})
 		.done(function(resposta) {
 			$('.progress').addClass('d-none');
-
+			$('#detalhes-post').html(resposta);
+			$('#detalhes-post').modal('show');
 		})
-		.fail(function(){
-			console.log('Ops, Algo deu errado');
-		})
+		// .fail(function(){
+		// 	console.log('Ops, Algo deu errado');
+		// })
 	}
 
 	// ação do botão leia mais (.btn-detalhes)
-	$('.btn-detalhes').on('click', function() {
-		detalhesPostAjax();
+	$('body').on('click', '.btn-detalhes', function() {
+		let id = $(this).closest('.item').data('id');
+		detalhesPostAjax(id);
 	});
 
 
