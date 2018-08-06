@@ -3,12 +3,14 @@
 function listarPosts(){ 
 	$page = $_GET['page'];
 	$slug = $_GET['slug'];
+	$search = $_GET['search'];
 
 	$args = [
 		'post_type'=>'post',
 		'posts_per_page'=>4,
 		'paged'=>($page)? $page :1,
-		'category_name' => $slug
+		'category_name' => $slug,
+		's' => $search
 	];
 
 	$posts = new WP_Query($args);

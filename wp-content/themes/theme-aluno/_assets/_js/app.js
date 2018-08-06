@@ -7,17 +7,25 @@ jQuery(function($){
 
 	var page = 1;
 	var slug = $('.list-group-item.active').data('slug');
-	var listarPostsAjax = function(page){
-		$.ajax({
+	var search = '';
+
+	var rlp = null;
+
+	var listarPostsAjax = function(page, slug, search){
+		rlp = $.ajax({
 			url: wp.ajaxurl,
 			type: 'GET',
 			data: {
 				action: 'listarPosts',
 				page: page,
-				slug: slug
+				slug: slug,
+				search: search
 			},
 			beforeSend:function(){
 				$('.progress').removeClass('d-none');
+				if (rlp != null) {
+					rlp.abort();
+				}
 			}
 		})
 		.done(function(resposta) {
@@ -28,12 +36,12 @@ jQuery(function($){
 			console.log('Ops, Algo deu errado');
 		})
 	}
-	listarPostsAjax(page, slug);
+	listarPostsAjax(page);
 
 	//ação do botão da categoria (list-group-item)
 	$('.list-group-item').on('click', function() {
 		slug =$(this).data('slug');
-		listarPostsAjax(1, slug);
+		listarPostsAjax(page, slug, search);
 		$('.list-group-item').removeClass('active');
 		$(this).addClass('active');
 	});
@@ -41,7 +49,7 @@ jQuery(function($){
 	//ação do botão da paginação (list-group-item)
 	$('body').on('click', '.page-item', function() {
 		page = $(this).find('span').text();
-		listarPostsAjax(page, slug);
+		listarPostsAjax(page, slug, search);
 		$('.page-item').removeClass('active');
 		$(this).addClass('active');
 	});
@@ -52,12 +60,24 @@ jQuery(function($){
 		$(this).addClass('d-none');
 		$('#campo-busca').val('');
 		// $('#btn-limpar')
+
+		search = '';
 	});
 
 	//ação qndo digitar na busca (#btn-limpar)
 	$('#campo-busca').on('keyup', function() {
-		listarPostsAjax(page);
-		$('#btn-limpar').removeClass('d-none');
+		search = $(this).val();
+		if (search.length >=3 ) {
+			listarPostsAjax(page, slug, search);
+		}else{
+			listarPostsAjax(page, slug);	
+		}
+
+		if (search.length < 1 ) {
+			$('#btn-limpar').addClass('d-none');
+		}else {
+			$('#btn-limpar').removeClass('d-none');
+		}
 		// $('#btn-limpar')
 	});
 	
@@ -81,9 +101,9 @@ jQuery(function($){
 			$('#detalhes-post').html(resposta);
 			$('#detalhes-post').modal('show');
 		})
-		// .fail(function(){
-		// 	console.log('Ops, Algo deu errado');
-		// })
+		.fail(function(){
+			console.log('Ops, Algo deu errado');
+		})
 	}
 
 	// ação do botão leia mais (.btn-detalhes)
