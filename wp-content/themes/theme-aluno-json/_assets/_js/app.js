@@ -7,7 +7,7 @@ jQuery(function($){
 	var listarPostsAjax = function(page, slug, search){
 		rlp = $.ajax({
 			url: wp.ajaxurl,
-			type: 'GET',
+			type: 'POST',
 			data: {
 				action: 'listarPosts',
 				page: page,
@@ -134,7 +134,7 @@ jQuery(function($){
 		
 		$.ajax({
 			url: wp.ajaxurl,
-			type: 'GET',
+			type: 'POST',
 			data: {
 				action: 'detalhesPost', 
 				id: id
@@ -145,7 +145,45 @@ jQuery(function($){
 		})
 		.done(function(resposta) {
 			$('.progress').addClass('d-none');
-			$('#detalhes-post').html(resposta);
+
+			let success = resposta.success
+
+			if (success) {
+				$('#detalhes-post').html(`
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">${resposta.data.titulo}</h5>
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								${resposta.data.conteudo}
+							</div>
+							<div class="modal-footer"></div>
+						</div>
+					</div>
+				`);
+			}else{
+				$('#detalhes-post').html(`
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Ops... Algo deu errado!</h5>
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								${resposta.data.msg}
+							</div>
+							<div class="modal-footer"></div>
+						</div>
+					</div>
+				`);
+			}
+
 			$('#detalhes-post').modal('show');
 		})
 		.fail(function(){
@@ -164,7 +202,7 @@ jQuery(function($){
 	var curtirPostToggleAjax = function(id, tipo){
 		$.ajax({
 			url: wp.ajaxurl,
-			type: 'GET',
+			type: 'POST',
 			data: {
 				action: 'curtirPostToggle',
 				id: id,

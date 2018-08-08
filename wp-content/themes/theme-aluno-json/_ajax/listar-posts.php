@@ -1,8 +1,8 @@
 <?php 
 function listarPosts(){ 
-	$page = $_GET['page'];
-	$slug = $_GET['slug'];
-	$search = $_GET['search'];
+	$page = $_POST['page'];
+	$slug = $_POST['slug'];
+	$search = $_POST['search'];
 	$args = [
 		'post_type'			=> 'post',
 		'posts_per_page'	=> 2,

@@ -1,7 +1,21 @@
 <?php 
 
 function detalhesPost(){
-	get_template_part( '_parts/detalhes' );
+	$id = $_POST['id'];
+	$detalhes = get_post( $id );
+
+	if ($detalhes) {
+		$post = [
+			'titulo' => $detalhes->post_title,
+			'conteudo' => wpautop( $detalhes->post_content )
+		];
+		wp_send_json_success( $post );
+	}else{
+		$resposta = [ 
+			'msg' => 'Não encontramos o conteúdo do post'
+		];
+		wp_send_json_error( $resposta );
+	}
 	exit;
 }
 

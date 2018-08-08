@@ -1,8 +1,8 @@
 <?php 
 
 function curtirPostToggle(){
-	$postID = $_GET['id'];
-	$tipo = $_GET['tipo'];
+	$postID = $_POST['id'];
+	$tipo = $_POST['tipo'];
 
 	$likes = get_post_meta($postID, 'likes', true );
 
