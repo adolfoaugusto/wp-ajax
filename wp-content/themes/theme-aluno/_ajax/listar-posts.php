@@ -19,7 +19,8 @@ function listarPosts(){
 	if( $posts->have_posts() ): ?>	
 	<!-- item -->
 	<div class="itens">
-		<?php while($posts->have_posts()): $posts->the_post(); ?>
+		<?php while($posts->have_posts()): $posts->the_post(); 
+			$likes = get_post_meta(get_the_ID(), 'likes', true ); ?>
 		<div class="item" data-id="<?php the_ID(); ?>">
 			<div class="card">
 				<div class="card-body">
@@ -28,7 +29,7 @@ function listarPosts(){
 				</div>
 				<div class="card-footer text-right">
 					<button type="button" class="btn btn-sm btn-primary btn-detalhes">Leia mais</button>
-					<button type="button" class="btn btn-sm btn-info btn-curtir"><span class="text">Gostei</span> <span class="badge badge-light">0</span></button>
+					<button type="button" class="btn btn-sm btn-info btn-curtir" data-tipo="like"><span class="text">Gostei</span> <span class="badge badge-light"><?php echo ($likes) ? $likes : "0" ; ?></span></button>
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,69 @@
+/*
+Theme Name: theme-aluno-json
+Author: Adolfo Augusto
+Author URI: aerowebsites.com.br
+Description: Tema gratis com paginação ajax.
+Version: 3.0
+*/
+
+* {
+	outline: none !important;
+	box-shadow:none !important;
+}
+
+main{
+	padding: 10px;
+}
+
+.topo{
+	padding:20px;
+	background: #FFF;
+	border:1px #e8e8e8 solid;
+	margin-bottom: 20px;
+}
+
+.btn{
+	cursor: pointer;
+}
+
+.item{
+	margin-bottom: 20px;
+}
+
+.busca-rapida{
+	margin-bottom:15px;
+	position:relative;
+}
+
+.form-control:focus{
+	box-shadow: none;
+}
+
+.list-group .list-group-item{
+	cursor:pointer;
+}
+
+
+.ajax-info {
+	height: 20px;
+}
+
+.ajax-info .progress-bar, .ajax-info .progress{
+	height: 10px !important;
+}
+
+.page-item{
+	cursor: pointer;
+}
+
+#btn-limpar{
+	position: absolute;
+	top:8px;
+	right:10px;
+	z-index:10;
+}
+
+.jumbotron {
+	background: #FFF;
+	border:1px #e8e8e8 solid;
+}
